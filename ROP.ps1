@@ -96,12 +96,18 @@ if ($ColorMode -eq "Light") {
     $color = [System.Drawing.Color]::FromArgb(39,39,39)
     $txtcolor = [System.Drawing.Color]::White
 } elseif ($ColorMode -eq "System") {
-    if ($theme.AppsUseLightTheme -eq 0) {
-        # Dark mode
-        $color = [System.Drawing.Color]::FromArgb(39,39,39)
-        $txtcolor = [System.Drawing.Color]::White
+    if ([System.Environment]::OSVersion.Version.Major -ge 10) {
+        if ($theme.AppsUseLightTheme -eq 0) {
+            # Dark mode
+            $color = [System.Drawing.Color]::FromArgb(39,39,39)
+            $txtcolor = [System.Drawing.Color]::White
+        } else {
+            # Light mode
+            $color = [System.Drawing.SystemColors]::ButtonFace
+            $txtcolor = [System.Drawing.SystemColors]::WindowText
+        }
     } else {
-        # Light mode
+        # not on color mode aware OS (Win10 above)
         $color = [System.Drawing.SystemColors]::ButtonFace
         $txtcolor = [System.Drawing.SystemColors]::WindowText
     }
